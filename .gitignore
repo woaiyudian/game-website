@@ -1,0 +1,5 @@
+node_modules/
+*.log
+守护日志.txt
+lt-*.log
+lhr-*.log
