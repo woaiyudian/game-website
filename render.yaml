@@ -1,0 +1,8 @@
+# Render 免费部署配置（自动识别）
+services:
+  - type: web
+    name: game-website
+    runtime: node
+    plan: free
+    buildCommand: echo "no build needed"
+    startCommand: node backend/server.js
