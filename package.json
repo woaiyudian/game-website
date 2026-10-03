@@ -1,0 +1,12 @@
+{
+  "name": "game-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "模拟人生・微力版 官方网站",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
