@@ -18,7 +18,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">首页</a></li>
                 <li><a href="repo.html" class="active">程序仓库</a></li>
-                <li><a href="mailto:15535203841@163.com">联系作者</a></li>
+                <li><a href="#" onclick="showEmail();return false;">联系作者</a></li>
             </ul>
         </div>
     </nav>
@@ -87,6 +87,23 @@
             navLinks.classList.toggle('open');
         }
 
+        // 显示邮箱弹窗
+        function showEmail() {
+            document.getElementById('emailModal').classList.add('show');
+            document.getElementById('navLinks').classList.remove('open');
+        }
+
+        function closeEmail() {
+            document.getElementById('emailModal').classList.remove('show');
+        }
+
+        // 点击弹窗外关闭
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'emailModal') {
+                closeEmail();
+            }
+        });
+
         // 点击链接后自动关闭移动端菜单
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
@@ -94,5 +111,15 @@
             });
         });
     </script>
+
+    <!-- 邮箱弹窗 -->
+    <div class="email-modal" id="emailModal">
+        <div class="email-modal-box">
+            <h3>📧 联系作者</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">有问题或建议欢迎发邮件</p>
+            <div class="email-address">15535203841@163.com</div>
+            <button class="email-modal-close" onclick="closeEmail()">关闭</button>
+        </div>
+    </div>
 </body>
 </html>
