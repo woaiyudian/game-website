@@ -497,6 +497,131 @@ a:hover {
     background: var(--accent-hover);
 }
 
+/* 项目详情弹窗 */
+.detail-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.detail-modal.show {
+    display: flex;
+}
+
+.detail-modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.detail-modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    z-index: 1;
+}
+
+.detail-modal-title {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.detail-modal-version {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.detail-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+}
+
+.detail-modal-close:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.detail-modal-body {
+    padding: 24px 32px 32px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.detail-modal-body h4 {
+    color: var(--text-primary);
+    margin: 20px 0 10px;
+    font-size: 1.05rem;
+}
+
+.detail-modal-body h4:first-child {
+    margin-top: 0;
+}
+
+.detail-modal-body ul {
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.detail-modal-body li {
+    margin: 6px 0;
+}
+
+.detail-modal-body .highlight {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.detail-modal-footer {
+    padding: 20px 32px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.repo-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.repo-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
 /* ========== 响应式：移动端 ========== */
 @media (max-width: 768px) {
     .nav-toggle {
