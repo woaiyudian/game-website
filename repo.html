@@ -34,7 +34,7 @@
             <div class="repo-grid">
 
                 <!-- 程序卡片 - 模拟人生·微力版 -->
-                <div class="repo-card">
+                <div class="repo-card" onclick="showDetail('game')">
                     <div class="repo-card-header">
                         <h3 class="repo-card-title">模拟人生・微力版</h3>
                         <span class="repo-card-version">v3.0.0</span>
@@ -44,7 +44,7 @@
                         使用 Python + Ursina 引擎 + Blender 建模开发，仅支持 Windows 系统。
                     </p>
                     <div class="repo-card-footer">
-                        <a href="https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3" target="_blank" class="btn btn-primary">
+                        <a href="https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3" target="_blank" class="btn btn-primary" onclick="event.stopPropagation()">
                             <span>⬇️</span> 123 云盘下载
                         </a>
                     </div>
@@ -110,6 +110,62 @@
                 document.getElementById('navLinks').classList.remove('open');
             });
         });
+
+        // 项目详情数据
+        const projects = {
+            game: {
+                title: '模拟人生・微力版',
+                version: 'v3.0.0（银行核心）',
+                download: 'https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3',
+                content: `
+                    <h4>🎮 是什么</h4>
+                    <p>一个用 Python 写的 3D 模拟人生小游戏，玩家在一个 3D 小镇里自由走动，经营一家超市赚钱。</p>
+                    <p>当前版本：<span class="highlight">v3.0.0（银行核心）</span></p>
+
+                    <h4>🎯 能玩什么</h4>
+                    <ul>
+                        <li>🏃 <strong>3D 探索</strong> —— 小人在小镇上走（马路、人行道、银行、超市、树），有碰撞箱、跳跃、走路动画，还能切女孩角色</li>
+                        <li>🏪 <strong>超市经营（核心玩法）</strong> —— 用笔记本电脑进货 → 摆上货架 → 给商品标价 / 改价 → 顾客进店购买 → 收银台收银</li>
+                        <li>💰 <strong>找零小游戏</strong> —— 收银时要算找零（老按钮游戏迁移过来的）</li>
+                        <li>📱 <strong>手机系统</strong> —— 按 P 键打开手机，里面能看到超市全部数据（库存、营业额、统计表等），进货、改价、查数据都搬进了手机</li>
+                        <li>🏦 <strong>银行模块</strong> —— 同步银行卡账户，ATM 取存钱</li>
+                    </ul>
+
+                    <h4>🛠️ 怎么做的</h4>
+                    <ul>
+                        <li>引擎：<strong>Ursina / Panda3D</strong>（Python 3D 引擎）</li>
+                        <li>建模：<strong>Blender</strong>（银行、超市、小人、顾客都是建模出来的，顾客还会走路）</li>
+                        <li>启动器：tkinter 界面，带<strong>激活码 + 时间卡</strong>授权系统（机器码绑定）</li>
+                        <li>打包：3D 用 ursina.build 打包，启动器用 Nuitka 打包成 exe，玩家<strong>只双击一个「启动游戏.exe」</strong>就能玩</li>
+                        <li>更新：启动时对比 Gitee 上的版本号，有新版就引导玩家去网盘下载</li>
+                    </ul>
+
+                    <h4>💻 系统要求</h4>
+                    <p>仅支持 Windows 系统</p>
+                `
+            }
+        };
+
+        function showDetail(id) {
+            const p = projects[id];
+            if (!p) return;
+            document.getElementById('detailTitle').textContent = p.title;
+            document.getElementById('detailVersion').textContent = p.version;
+            document.getElementById('detailBody').innerHTML = p.content;
+            document.getElementById('detailDownload').href = p.download;
+            document.getElementById('detailModal').classList.add('show');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailModal').classList.remove('show');
+        }
+
+        // 点击详情弹窗外关闭
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'detailModal') {
+                closeDetail();
+            }
+        });
     </script>
 
     <!-- 邮箱弹窗 -->
@@ -119,6 +175,26 @@
             <p style="color: var(--text-secondary); font-size: 0.9rem;">有问题或建议欢迎发邮件</p>
             <div class="email-address">15535203841@163.com</div>
             <button class="email-modal-close" onclick="closeEmail()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 项目详情弹窗 -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-modal-box">
+            <div class="detail-modal-header">
+                <button class="detail-modal-close" onclick="closeDetail()">✕</button>
+                <h3 class="detail-modal-title">
+                    <span id="detailTitle"></span>
+                    <span class="detail-modal-version" id="detailVersion"></span>
+                </h3>
+            </div>
+            <div class="detail-modal-body" id="detailBody"></div>
+            <div class="detail-modal-footer">
+                <a id="detailDownload" href="#" target="_blank" class="btn btn-primary">
+                    <span>⬇️</span> 123 云盘下载
+                </a>
+                <button class="btn btn-secondary" onclick="closeDetail()">关闭</button>
+            </div>
         </div>
     </div>
 </body>
