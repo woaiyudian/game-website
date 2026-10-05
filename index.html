@@ -108,10 +108,58 @@
         <p>© 2026 微力工作室 · 独立游戏开发</p>
         <p class="visit-count">
             👤 总访客：
-            <img src="https://visitor-badge.laobi.icu/badge?page_id=woaiyudian-game-site-v5&left_color=161b22&right_color=58a6ff&left_text=%E2%80%8B" alt="访客数" style="vertical-align: middle; height: 28px; border-radius: 6px; margin: 0 4px;">
+            <img id="visitBadge" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='28' width='60'%3E%3Crect fill='%2358a6ff' width='60' height='28' rx='6'/%3E%3Ctext x='30' y='19' fill='white' font-size='14' text-anchor='middle' font-family='sans-serif'%3E...%3C/text%3E%3C/svg%3E" alt="访客数" style="vertical-align: middle; height: 28px; border-radius: 6px; margin: 0 4px;">
              人
         </p>
     </footer>
+
+    <script>
+        // 访问计数 + 每日去重（同一台电脑一天只算一次）
+        (function() {
+            var pageId = 'woaiyudian-game-site-v6';
+            var badgeUrl = 'https://visitor-badge.laobi.icu/badge?page_id=' + pageId + '&left_color=161b22&right_color=58a6ff&left_text=%E2%80%8B';
+            var today = new Date().toDateString();
+            var stored = localStorage.getItem('visit_count_date');
+            var badge = document.getElementById('visitBadge');
+
+            function showSvg(svgText) {
+                // 把 SVG 文本转成 base64 data URL 显示
+                var encoded = btoa(unescape(encodeURIComponent(svgText)));
+                badge.src = 'data:image/svg+xml;base64,' + encoded;
+            }
+
+            if (stored === today) {
+                // 今天已经访问过了，直接显示缓存，不请求服务端（不 +1）
+                var cached = localStorage.getItem('visit_count_svg');
+                if (cached) {
+                    showSvg(cached);
+                } else {
+                    // 没有缓存就请求一次（可能会 +1，没办法）
+                    fetch(badgeUrl)
+                        .then(function(r) { return r.text(); })
+                        .then(function(svg) {
+                            showSvg(svg);
+                            localStorage.setItem('visit_count_svg', svg);
+                        })
+                        .catch(function() {
+                            badge.alt = '--';
+                        });
+                }
+            } else {
+                // 今天第一次访问，请求服务端（+1）并缓存
+                fetch(badgeUrl)
+                    .then(function(r) { return r.text(); })
+                    .then(function(svg) {
+                        showSvg(svg);
+                        localStorage.setItem('visit_count_svg', svg);
+                        localStorage.setItem('visit_count_date', today);
+                    })
+                    .catch(function() {
+                        badge.alt = '--';
+                    });
+            }
+        })();
+    </script>
 
     <script>
         // 移动端菜单切换
