@@ -33,7 +33,7 @@
                 13 岁自学 Python，使用 Ursina 引擎独立开发的 PC 3D 模拟经营小游戏
             </p>
             <div class="hero-buttons">
-                <a href="repo.html" class="btn btn-secondary">
+                <a href="javascript:void(0)" onclick="showInstallTip('repo.html')" class="btn btn-secondary">
                     <span>🎯</span> 免费试玩 Demo
                 </a>
                 <a href="https://afdian.com/item/4c354e10907911f198b45254001e7c00" target="_blank" class="btn btn-primary">
@@ -178,10 +178,31 @@
             document.getElementById('emailModal').classList.remove('show');
         }
 
+        // 安装提示弹窗
+        var installRedirectUrl = '';
+        function showInstallTip(url) {
+            installRedirectUrl = url;
+            document.getElementById('installModal').classList.add('show');
+        }
+
+        function closeInstallTip() {
+            document.getElementById('installModal').classList.remove('show');
+        }
+
+        function confirmInstall() {
+            closeInstallTip();
+            if (installRedirectUrl) {
+                window.open(installRedirectUrl, '_blank');
+            }
+        }
+
         // 点击弹窗外关闭
         document.addEventListener('click', function(e) {
             if (e.target && e.target.id === 'emailModal') {
                 closeEmail();
+            }
+            if (e.target && e.target.id === 'installModal') {
+                closeInstallTip();
             }
         });
 
@@ -200,6 +221,26 @@
             <p style="color: var(--text-secondary); font-size: 0.9rem;">有问题或建议欢迎发邮件</p>
             <div class="email-address">15535203841@163.com</div>
             <button class="email-modal-close" onclick="closeEmail()">关闭</button>
+        </div>
+    </div>
+
+    <!-- 安装提示弹窗 -->
+    <div class="install-modal" id="installModal">
+        <div class="install-modal-box">
+            <button class="install-modal-close" onclick="closeInstallTip()">×</button>
+            <div class="install-modal-header">
+                <h3 class="install-modal-title">📌 安装说明</h3>
+            </div>
+            <div class="install-modal-body">
+                <p>请将游戏安装在以下目录：</p>
+                <div class="install-path">D:\模拟人生游戏\Python 代码 - 发布版</div>
+                <p>安装桌面快捷方式时，安装路径请选择上述目录。</p>
+                <p class="install-warning">⚠️ 不要安装在 C 盘或其他中文路径目录，否则可能无法正常运行。</p>
+            </div>
+            <div class="install-modal-footer">
+                <button class="btn-cancel" onclick="closeInstallTip()">取消</button>
+                <button class="btn-confirm" onclick="confirmInstall()">我知道了，开始下载</button>
+            </div>
         </div>
     </div>
 </body>
