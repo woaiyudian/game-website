@@ -114,39 +114,56 @@
     </footer>
 
     <script>
-        // 访问量统计 - visitor-badge.laobi.icu（国内免注册，自动按设备/IP去重）
+        // 访问量统计 - 本地去重 + visitor-badge
         (function() {
-            var pageId = 'woaiyudian-game-website';
+            var pageId = 'woaiyudian-game-site-v2';
+            var today = new Date().toDateString();
+            var stored = localStorage.getItem('visit_count_date');
+
+            // 今天已经访问过了，只读取不 +1
+            if (stored === today) {
+                fetch('https://visitor-badge.laobi.icu/badge?page_id=' + pageId)
+                    .then(function(res) { return res.text(); })
+                    .then(function(svg) {
+                        var nums = svg.match(/>(\d+)<\/text>/g);
+                        if (nums && nums.length >= 2) {
+                            document.getElementById('visitPV').textContent = nums[1].replace(/[^\d]/g, '');
+                            document.getElementById('visitUV').textContent = nums[0].replace(/[^\d]/g, '');
+                        }
+                    })
+                    .catch(function() {
+                        document.getElementById('visitPV').textContent = '--';
+                        document.getElementById('visitUV').textContent = '--';
+                    });
+                return;
+            }
+
+            // 今天第一次访问，计数 +1 并记录
             var badgeUrl = 'https://visitor-badge.laobi.icu/badge?page_id=' + pageId;
-            // 先请求一次让计数 +1
             var img = new Image();
             img.src = badgeUrl;
-            // 获取数字（PV 和 UV）
             fetch(badgeUrl)
                 .then(function(res) { return res.text(); })
                 .then(function(svg) {
                     var nums = svg.match(/>(\d+)<\/text>/g);
                     if (nums && nums.length >= 2) {
-                        var uv = nums[0].replace(/[^\d]/g, '');
-                        var pv = nums[1].replace(/[^\d]/g, '');
-                        document.getElementById('visitPV').textContent = pv;
-                        document.getElementById('visitUV').textContent = uv;
-                    } else {
-                        document.getElementById('visitPV').textContent = '--';
-                        document.getElementById('visitUV').textContent = '--';
+                        document.getElementById('visitPV').textContent = nums[1].replace(/[^\d]/g, '');
+                        document.getElementById('visitUV').textContent = nums[0].replace(/[^\d]/g, '');
                     }
+                    localStorage.setItem('visit_count_date', today);
                 })
                 .catch(function() {
-                    // 备用：visitorbadge.io
-                    fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff&label=visitors')
+                    // 备用方案
+                    fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff')
                         .then(function(res) { return res.text(); })
                         .then(function(svg) {
                             var nums = svg.match(/>(\d+)<\/text>/g);
                             if (nums && nums.length > 0) {
-                                var num = nums[nums.length - 1].replace(/[^\d]/g, '');
-                                document.getElementById('visitUV').textContent = num;
-                                document.getElementById('visitPV').textContent = num;
+                                var n = nums[nums.length - 1].replace(/[^\d]/g, '');
+                                document.getElementById('visitPV').textContent = n;
+                                document.getElementById('visitUV').textContent = n;
                             }
+                            localStorage.setItem('visit_count_date', today);
                         })
                         .catch(function() {
                             document.getElementById('visitPV').textContent = '暂无数据';
