@@ -44,7 +44,7 @@
                         使用 Python + Ursina 引擎 + Blender 建模开发，仅支持 Windows 系统。
                     </p>
                     <div class="repo-card-footer">
-                        <a href="https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3" target="_blank" class="btn btn-primary" onclick="event.stopPropagation()">
+                        <a href="javascript:void(0)" onclick="event.stopPropagation(); showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3')" class="btn btn-primary">
                             <span>⬇️</span> 123 云盘下载
                         </a>
                     </div>
@@ -196,7 +196,7 @@
             document.getElementById('detailTitle').textContent = p.title;
             document.getElementById('detailVersion').textContent = p.version;
             document.getElementById('detailBody').innerHTML = p.content;
-            document.getElementById('detailDownload').href = p.download;
+            document.getElementById('detailDownload').dataset.url = p.download;
             document.getElementById('detailModal').classList.add('show');
         }
 
@@ -204,10 +204,34 @@
             document.getElementById('detailModal').classList.remove('show');
         }
 
+        // 安装提示弹窗
+        var installRedirectUrl = '';
+        function showInstallTip(url) {
+            installRedirectUrl = url;
+            document.getElementById('installModal').classList.add('show');
+        }
+
+        function closeInstallTip() {
+            document.getElementById('installModal').classList.remove('show');
+        }
+
+        function confirmInstall() {
+            closeInstallTip();
+            if (installRedirectUrl) {
+                window.open(installRedirectUrl, '_blank');
+            }
+        }
+
         // 点击详情弹窗外关闭
         document.addEventListener('click', function(e) {
             if (e.target && e.target.id === 'detailModal') {
                 closeDetail();
+            }
+            if (e.target && e.target.id === 'installModal') {
+                closeInstallTip();
+            }
+            if (e.target && e.target.id === 'emailModal') {
+                closeEmail();
             }
         });
     </script>
@@ -234,10 +258,30 @@
             </div>
             <div class="detail-modal-body" id="detailBody"></div>
             <div class="detail-modal-footer">
-                <a id="detailDownload" href="#" target="_blank" class="btn btn-primary">
+                <a id="detailDownload" href="javascript:void(0)" onclick="showInstallTip(this.dataset.url)" class="btn btn-primary">
                     <span>⬇️</span> 123 云盘下载
                 </a>
                 <button class="btn btn-secondary" onclick="closeDetail()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 安装提示弹窗 -->
+    <div class="install-modal" id="installModal">
+        <div class="install-modal-box">
+            <button class="install-modal-close" onclick="closeInstallTip()">×</button>
+            <div class="install-modal-header">
+                <h3 class="install-modal-title">📌 安装说明</h3>
+            </div>
+            <div class="install-modal-body">
+                <p>请将游戏安装在以下目录：</p>
+                <div class="install-path">D:\模拟人生游戏\Python 代码 - 发布版</div>
+                <p>安装桌面快捷方式时，安装路径请选择上述目录。</p>
+                <p class="install-warning">⚠️ 不要安装在 C 盘或其他中文路径目录，否则可能无法正常运行。</p>
+            </div>
+            <div class="install-modal-footer">
+                <button class="btn-cancel" onclick="closeInstallTip()">取消</button>
+                <button class="btn-confirm" onclick="confirmInstall()">我知道了，开始下载</button>
             </div>
         </div>
     </div>
