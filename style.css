@@ -636,6 +636,128 @@ a:hover {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
+/* 安装提示弹窗 */
+.install-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.install-modal.show {
+    display: flex;
+}
+
+.install-modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.install-modal-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.install-modal-title {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.install-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+}
+
+.install-modal-close:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.install-modal-body {
+    padding: 24px 28px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.install-path {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    color: var(--accent);
+    font-size: 0.95rem;
+    word-break: break-all;
+}
+
+.install-warning {
+    color: var(--warning);
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.install-modal-footer {
+    padding: 16px 28px 24px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.btn-confirm {
+    padding: 10px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.btn-confirm:hover {
+    background: var(--accent-hover);
+}
+
 /* ========== 响应式：移动端 ========== */
 @media (max-width: 768px) {
     .nav-toggle {
