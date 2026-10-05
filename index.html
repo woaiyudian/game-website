@@ -107,34 +107,40 @@
     <footer class="footer">
         <p>© 2026 微力工作室 · 独立游戏开发</p>
         <p class="visit-count">
-            👀 总访问量：<span id="visitPV">加载中...</span> 次
-            &nbsp;·&nbsp;
-            👤 总访客：<span id="visitUV">加载中...</span> 人
+            👤 总访客：<span id="visitCount">加载中...</span> 人
         </p>
     </footer>
 
     <script>
         // 访问量统计 - 本地去重 + visitor-badge
         (function() {
-            var pageId = 'woaiyudian-game-site-v3';
+            var pageId = 'woaiyudian-game-site-v4';
             var today = new Date().toDateString();
             var stored = localStorage.getItem('visit_count_date');
+
+            function showNum(svg) {
+                // 从 SVG 中提取数字（取最后一个数字）
+                var nums = svg.match(/>(\d+)<\/text>/g);
+                if (nums && nums.length > 0) {
+                    var n = nums[nums.length - 1].replace(/[^\d]/g, '');
+                    document.getElementById('visitCount').textContent = n;
+                    return true;
+                }
+                return false;
+            }
+
+            function showError() {
+                document.getElementById('visitCount').textContent = '--';
+            }
 
             // 今天已经访问过了，只读取不 +1
             if (stored === today) {
                 fetch('https://visitor-badge.laobi.icu/badge?page_id=' + pageId)
                     .then(function(res) { return res.text(); })
                     .then(function(svg) {
-                        var nums = svg.match(/>(\d+)<\/text>/g);
-                        if (nums && nums.length >= 2) {
-                            document.getElementById('visitPV').textContent = nums[1].replace(/[^\d]/g, '');
-                            document.getElementById('visitUV').textContent = nums[0].replace(/[^\d]/g, '');
-                        }
+                        if (!showNum(svg)) showError();
                     })
-                    .catch(function() {
-                        document.getElementById('visitPV').textContent = '--';
-                        document.getElementById('visitUV').textContent = '--';
-                    });
+                    .catch(showError);
                 return;
             }
 
@@ -145,30 +151,22 @@
             fetch(badgeUrl)
                 .then(function(res) { return res.text(); })
                 .then(function(svg) {
-                    var nums = svg.match(/>(\d+)<\/text>/g);
-                    if (nums && nums.length >= 2) {
-                        document.getElementById('visitPV').textContent = nums[1].replace(/[^\d]/g, '');
-                        document.getElementById('visitUV').textContent = nums[0].replace(/[^\d]/g, '');
+                    if (showNum(svg)) {
+                        localStorage.setItem('visit_count_date', today);
+                    } else {
+                        showError();
                     }
-                    localStorage.setItem('visit_count_date', today);
                 })
                 .catch(function() {
                     // 备用方案
                     fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff')
                         .then(function(res) { return res.text(); })
                         .then(function(svg) {
-                            var nums = svg.match(/>(\d+)<\/text>/g);
-                            if (nums && nums.length > 0) {
-                                var n = nums[nums.length - 1].replace(/[^\d]/g, '');
-                                document.getElementById('visitPV').textContent = n;
-                                document.getElementById('visitUV').textContent = n;
+                            if (showNum(svg)) {
+                                localStorage.setItem('visit_count_date', today);
                             }
-                            localStorage.setItem('visit_count_date', today);
                         })
-                        .catch(function() {
-                            document.getElementById('visitPV').textContent = '暂无数据';
-                            document.getElementById('visitUV').textContent = '暂无数据';
-                        });
+                        .catch(showError);
                 });
         })();
     </script>
