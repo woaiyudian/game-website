@@ -79,12 +79,14 @@
     <footer class="footer">
         <p>© 2026 python微力实验室 · 独立游戏开发</p>
         <p class="visit-count">
-            👀 总访问量：<span id="visitCount">加载中...</span> 次
+            👀 总访问量：<span id="visitPV">加载中...</span> 次
+            &nbsp;·&nbsp;
+            👤 总访客：<span id="visitUV">加载中...</span> 人
         </p>
     </footer>
 
     <script>
-        // 访问量统计 - visitor-badge.laobi.icu（国内免注册）
+        // 访问量统计 - visitor-badge.laobi.icu（国内免注册，自动按设备/IP去重）
         (function() {
             var pageId = 'woaiyudian-game-website';
             var badgeUrl = 'https://visitor-badge.laobi.icu/badge?page_id=' + pageId;
@@ -93,26 +95,31 @@
             fetch(badgeUrl)
                 .then(function(res) { return res.text(); })
                 .then(function(svg) {
-                    var match = svg.match(/>(\d+)<\/text>/g);
-                    if (match && match.length > 0) {
-                        var num = match[match.length - 1].replace(/[^\d]/g, '');
-                        document.getElementById('visitCount').textContent = num;
+                    var nums = svg.match(/>(\d+)<\/text>/g);
+                    if (nums && nums.length >= 2) {
+                        var uv = nums[0].replace(/[^\d]/g, '');
+                        var pv = nums[1].replace(/[^\d]/g, '');
+                        document.getElementById('visitPV').textContent = pv;
+                        document.getElementById('visitUV').textContent = uv;
                     } else {
-                        document.getElementById('visitCount').textContent = '--';
+                        document.getElementById('visitPV').textContent = '--';
+                        document.getElementById('visitUV').textContent = '--';
                     }
                 })
                 .catch(function() {
-                    fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff')
+                    fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff&label=visitors')
                         .then(function(res) { return res.text(); })
                         .then(function(svg) {
-                            var match = svg.match(/>(\d+)<\/text>/g);
-                            if (match && match.length > 0) {
-                                var num = match[match.length - 1].replace(/[^\d]/g, '');
-                                document.getElementById('visitCount').textContent = num;
+                            var nums = svg.match(/>(\d+)<\/text>/g);
+                            if (nums && nums.length > 0) {
+                                var num = nums[nums.length - 1].replace(/[^\d]/g, '');
+                                document.getElementById('visitUV').textContent = num;
+                                document.getElementById('visitPV').textContent = num;
                             }
                         })
                         .catch(function() {
-                            document.getElementById('visitCount').textContent = '暂无数据';
+                            document.getElementById('visitPV').textContent = '暂无数据';
+                            document.getElementById('visitUV').textContent = '暂无数据';
                         });
                 });
         })();
