@@ -79,21 +79,23 @@
     <footer class="footer">
         <p>© 2026 python微力实验室 · 独立游戏开发</p>
         <p class="visit-count">
-            👀 总访问量：<span id="busuanzi_value_site_pv">--</span> 次
-            &nbsp;·&nbsp;
-            👤 总访客：<span id="busuanzi_value_site_uv">--</span> 人
+            👀 总访问量：<span id="visitCount">--</span> 次
         </p>
     </footer>
 
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script>
-        // 5秒后如果还是 --，说明脚本加载失败，显示提示
-        setTimeout(function() {
-            var pv = document.getElementById('busuanzi_value_site_pv');
-            var uv = document.getElementById('busuanzi_value_site_uv');
-            if (pv && pv.textContent === '--') pv.textContent = '加载中...';
-            if (uv && uv.textContent === '--') uv.textContent = '加载中...';
-        }, 3000);
+        // 访问量统计 - CountAPI
+        (function() {
+            var key = 'site_pv';
+            fetch('https://api.countapi.xyz/hit/woaiyudian-game-website/' + key)
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    document.getElementById('visitCount').textContent = data.value;
+                })
+                .catch(function() {
+                    document.getElementById('visitCount').textContent = '暂无数据';
+                });
+        })();
     </script>
 
     <script>
