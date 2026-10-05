@@ -435,6 +435,20 @@ a:hover {
     font-size: 0.9rem;
 }
 
+.footer p {
+    margin: 4px 0;
+}
+
+.visit-count {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.visit-count span {
+    color: var(--accent);
+    font-weight: 600;
+}
+
 /* 邮箱弹窗 */
 .email-modal {
     display: none;
