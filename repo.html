@@ -79,23 +79,43 @@
     <footer class="footer">
         <p>© 2026 python微力实验室 · 独立游戏开发</p>
         <p class="visit-count">
-            👀 总访问量：<span id="busuanzi_value_site_pv">--</span> 次
-            &nbsp;·&nbsp;
-            👤 总访客：<span id="busuanzi_value_site_uv">--</span> 人
+            👀 总访问量：<span id="visitCount">加载中...</span> 次
         </p>
     </footer>
 
-    <script async src="https://busuanzi.jqhtml.com/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script>
-        // 备用方案：如果主域名加载失败，尝试备用域名
-        setTimeout(function() {
-            var pv = document.getElementById('busuanzi_value_site_pv');
-            if (pv && pv.textContent === '--') {
-                var s = document.createElement('script');
-                s.src = 'https://cdn.jsdelivr.net/gh/jqhtml/busuanzi/busuanzi.pure.mini.js';
-                document.body.appendChild(s);
-            }
-        }, 3000);
+        // 访问量统计 - visitor-badge.laobi.icu（国内免注册）
+        (function() {
+            var pageId = 'woaiyudian-game-website';
+            var badgeUrl = 'https://visitor-badge.laobi.icu/badge?page_id=' + pageId;
+            var img = new Image();
+            img.src = badgeUrl;
+            fetch(badgeUrl)
+                .then(function(res) { return res.text(); })
+                .then(function(svg) {
+                    var match = svg.match(/>(\d+)<\/text>/g);
+                    if (match && match.length > 0) {
+                        var num = match[match.length - 1].replace(/[^\d]/g, '');
+                        document.getElementById('visitCount').textContent = num;
+                    } else {
+                        document.getElementById('visitCount').textContent = '--';
+                    }
+                })
+                .catch(function() {
+                    fetch('https://api.visitorbadge.io/api/visitors?path=' + pageId + '&countColor=%2358a6ff')
+                        .then(function(res) { return res.text(); })
+                        .then(function(svg) {
+                            var match = svg.match(/>(\d+)<\/text>/g);
+                            if (match && match.length > 0) {
+                                var num = match[match.length - 1].replace(/[^\d]/g, '');
+                                document.getElementById('visitCount').textContent = num;
+                            }
+                        })
+                        .catch(function() {
+                            document.getElementById('visitCount').textContent = '暂无数据';
+                        });
+                });
+        })();
     </script>
 
     <script>
