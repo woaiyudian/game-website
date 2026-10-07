@@ -47,8 +47,11 @@
                         <a href="javascript:void(0)" onclick="showDetail('game')" class="btn btn-secondary">
                             <span>📖</span> 查看详情
                         </a>
-                        <a href="javascript:void(0)" onclick="showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-7gns3')" class="btn btn-primary">
-                            <span>⬇️</span> 123 云盘下载
+                        <a href="javascript:void(0)" onclick="showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-7gns3')" class="btn btn-secondary">
+                            <span>⬇️</span> Demo下载
+                        </a>
+                        <a href="https://afdian.com/item/4c354e10907911f198b45254001e7c00" target="_blank" class="btn btn-primary">
+                            <span>💎</span> 获取完整版
                         </a>
                     </div>
                 </div>
@@ -149,6 +152,7 @@
                 title: '模拟人生・微力版',
                 version: 'v3.0.0（银行核心）',
                 download: 'https://4001418454.share.123pan.cn/123pan/JSWZMh-7gns3',
+                fullVersion: 'https://afdian.com/item/4c354e10907911f198b45254001e7c00',
                 content: `
                     <h4>🎮 是什么</h4>
                     <p>一个用 Python 写的 3D 模拟人生小游戏，玩家在一个 3D 小镇里自由走动，经营一家超市赚钱。</p>
@@ -215,12 +219,14 @@
             document.getElementById('detailVersion').textContent = p.version;
             document.getElementById('detailBody').innerHTML = p.content;
             const dlBtn = document.getElementById('detailDownload');
+            const dlBtn2 = document.getElementById('detailDownload2');
+            // 主按钮
             if (p.download && p.download !== '#') {
                 if (p.downloadType === 'vip') {
                     dlBtn.innerHTML = '<span>💎</span> ' + (p.downloadText || '购买VIP');
                     dlBtn.onclick = function() { window.open(p.download, '_blank'); closeDetail(); };
                 } else {
-                    dlBtn.innerHTML = '<span>⬇️</span> 123 云盘下载';
+                    dlBtn.innerHTML = '<span>⬇️</span> Demo下载';
                     dlBtn.onclick = function() { showInstallTip(p.download); };
                 }
                 dlBtn.style.display = '';
@@ -228,6 +234,14 @@
                 dlBtn.innerHTML = '<span>⏳</span> 下载链接即将上线';
                 dlBtn.onclick = function() { alert('下载链接即将上线，敬请期待！'); };
                 dlBtn.style.display = '';
+            }
+            // 第二个按钮（完整版）
+            if (p.fullVersion) {
+                dlBtn2.innerHTML = '<span>💎</span> 获取完整版';
+                dlBtn2.onclick = function() { window.open(p.fullVersion, '_blank'); closeDetail(); };
+                dlBtn2.style.display = '';
+            } else {
+                dlBtn2.style.display = 'none';
             }
             document.getElementById('detailModal').classList.add('show');
         }
@@ -290,6 +304,7 @@
             </div>
             <div class="detail-modal-body" id="detailBody"></div>
             <div class="detail-modal-footer">
+                <a id="detailDownload2" href="javascript:void(0)" class="btn btn-secondary" style="display:none;"></a>
                 <a id="detailDownload" href="javascript:void(0)" onclick="showInstallTip(this.dataset.url)" class="btn btn-primary">
                     <span>⬇️</span> 123 云盘下载
                 </a>
