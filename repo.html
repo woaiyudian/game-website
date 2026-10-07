@@ -47,7 +47,29 @@
                         <a href="javascript:void(0)" onclick="showDetail('game')" class="btn btn-secondary">
                             <span>📖</span> 查看详情
                         </a>
-                        <a href="javascript:void(0)" onclick="showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3')" class="btn btn-primary">
+                        <a href="javascript:void(0)" onclick="showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-7gns3')" class="btn btn-primary">
+                            <span>⬇️</span> 123 云盘下载
+                        </a>
+                        <a href="https://afdian.com/item/980455fcc19d11f19e0152540025c377" target="_blank" class="btn btn-secondary">
+                            <span>💖</span> 爱发电
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 程序卡片 - 文件批量分类整理工具 -->
+                <div class="repo-card">
+                    <div class="repo-card-header">
+                        <h3 class="repo-card-title">文件批量分类整理工具</h3>
+                        <span class="repo-card-version">v1.0</span>
+                    </div>
+                    <p class="repo-card-desc">
+                        专为 Windows 用户打造的轻量化、高效电脑文件整理神器！智能一键分类图片、视频、文档、压缩包，双重批量重命名，机器码授权系统，零基础也能快速上手。
+                    </p>
+                    <div class="repo-card-footer">
+                        <a href="javascript:void(0)" onclick="showDetail('filetool')" class="btn btn-secondary">
+                            <span>📖</span> 查看详情
+                        </a>
+                        <a href="javascript:void(0)" onclick="showInstallTipFileTool()" class="btn btn-primary">
                             <span>⬇️</span> 123 云盘下载
                         </a>
                     </div>
@@ -129,7 +151,7 @@
             game: {
                 title: '模拟人生・微力版',
                 version: 'v3.0.0（银行核心）',
-                download: 'https://4001418454.share.123pan.cn/123pan/JSWZMh-OmDs3',
+                download: 'https://4001418454.share.123pan.cn/123pan/JSWZMh-7gns3',
                 content: `
                     <h4>🎮 是什么</h4>
                     <p>一个用 Python 写的 3D 模拟人生小游戏，玩家在一个 3D 小镇里自由走动，经营一家超市赚钱。</p>
@@ -156,6 +178,34 @@
                     <h4>💻 系统要求</h4>
                     <p>仅支持 Windows 系统</p>
                 `
+            },
+            filetool: {
+                title: '文件批量分类整理工具',
+                version: 'v1.0',
+                download: '#',
+                content: `
+                    <h4>📁 是什么</h4>
+                    <p>专为 Windows 用户打造的轻量化、高效电脑文件整理神器！告别手动拖拽、逐个归类的繁琐操作，一键搞定杂乱桌面与文件夹，大幅提升日常办公、素材整理、资料归档的效率。</p>
+
+                    <h4>✨ 核心功能</h4>
+                    <ul>
+                        <li>🗂️ <strong>智能一键分类</strong> —— 精准识别图片、视频、文档、压缩包等各类常见文件格式，自动完成批量移动归类</li>
+                        <li>📂 <strong>自定义存储路径</strong> —— 自由修改各类文件的保存文件夹，适配不同人的使用习惯，灵活度拉满</li>
+                        <li>📝 <strong>双重批量重命名</strong> —— 一键自动编号规整文件名，也支持逐个自定义修改单个文件名称</li>
+                        <li>🔒 <strong>文件防护机制</strong> —— 自动跳过程序本体文件，杜绝误删、误移工具文件的情况</li>
+                        <li>⚡ <strong>错误容错处理</strong> —— 单个文件操作失败不会中断整体任务，最大程度保护用户文件安全</li>
+                    </ul>
+
+                    <h4>💻 授权系统</h4>
+                    <p>搭载专属授权系统，自动生成唯一设备机器码，支持一键复制，激活码绑定设备使用，杜绝共用倒卖。</p>
+                    <p>划分免费、VIP、SVIP、永久多档位权限，按需选择，适配个人轻度使用和长期高频使用需求。</p>
+
+                    <h4>🎯 适用场景</h4>
+                    <p>素材剪辑、办公归档、资料整理、桌面清理等各类文件整理需求，零基础用户也能快速上手！</p>
+
+                    <h4>💻 系统要求</h4>
+                    <p>仅支持 Windows 系统</p>
+                `
             }
         };
 
@@ -165,7 +215,17 @@
             document.getElementById('detailTitle').textContent = p.title;
             document.getElementById('detailVersion').textContent = p.version;
             document.getElementById('detailBody').innerHTML = p.content;
-            document.getElementById('detailDownload').dataset.url = p.download;
+            const dlBtn = document.getElementById('detailDownload');
+            if (p.download && p.download !== '#') {
+                dlBtn.dataset.url = p.download;
+                dlBtn.innerHTML = '<span>⬇️</span> 123 云盘下载';
+                dlBtn.onclick = function() { showInstallTip(this.dataset.url); };
+                dlBtn.style.display = '';
+            } else {
+                dlBtn.innerHTML = '<span>⏳</span> 下载链接即将上线';
+                dlBtn.onclick = function() { alert('下载链接即将上线，敬请期待！'); };
+                dlBtn.style.display = '';
+            }
             document.getElementById('detailModal').classList.add('show');
         }
 
@@ -178,6 +238,10 @@
         function showInstallTip(url) {
             installRedirectUrl = url;
             document.getElementById('installModal').classList.add('show');
+        }
+
+        function showInstallTipFileTool() {
+            alert('下载链接即将上线，敬请期待！');
         }
 
         function closeInstallTip() {
