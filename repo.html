@@ -69,6 +69,9 @@
                         <a href="javascript:void(0)" onclick="showDetail('filetool')" class="btn btn-secondary">
                             <span>📖</span> 查看详情
                         </a>
+                        <a href="javascript:void(0)" onclick="showInstallTip('https://4001418454.share.123pan.cn/123pan/JSWZMh-bgns3')" class="btn btn-secondary">
+                            <span>⬇️</span> 123云盘下载
+                        </a>
                         <a href="https://afdian.com/item/980455fcc19d11f19e0152540025c377" target="_blank" class="btn btn-primary">
                             <span>💎</span> 购买VIP
                         </a>
@@ -183,9 +186,9 @@
             filetool: {
                 title: '文件批量分类整理工具',
                 version: 'v1.0',
-                download: 'https://afdian.com/item/980455fcc19d11f19e0152540025c377',
-                downloadText: '💎 购买VIP',
-                downloadType: 'vip',
+                download: 'https://4001418454.share.123pan.cn/123pan/JSWZMh-bgns3',
+                fullVersion: 'https://afdian.com/item/980455fcc19d11f19e0152540025c377',
+                fullVersionText: '💎 购买VIP',
                 content: `
                     <h4>📁 是什么</h4>
                     <p>专为 Windows 用户打造的轻量化、高效电脑文件整理神器！告别手动拖拽、逐个归类的繁琐操作，一键搞定杂乱桌面与文件夹，大幅提升日常办公、素材整理、资料归档的效率。</p>
@@ -235,9 +238,9 @@
                 dlBtn.onclick = function() { alert('下载链接即将上线，敬请期待！'); };
                 dlBtn.style.display = '';
             }
-            // 第二个按钮（完整版）
+            // 第二个按钮（完整版/VIP）
             if (p.fullVersion) {
-                dlBtn2.innerHTML = '<span>💎</span> 获取完整版';
+                dlBtn2.innerHTML = p.fullVersionText || '<span>💎</span> 获取完整版';
                 dlBtn2.onclick = function() { window.open(p.fullVersion, '_blank'); closeDetail(); };
                 dlBtn2.style.display = '';
             } else {
